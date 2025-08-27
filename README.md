@@ -2,6 +2,9 @@
 
 A Django-based web application to browse, filter, and book travel options such as flights, trains, and buses. Users can register, log in, manage profiles, view bookings, and cancel them. Built with Bootstrap 5 for a modern, responsive design.
 
+<img width="1467" height="743" alt="Screenshot 2025-08-28 at 1 53 15 AM" src="https://github.com/user-attachments/assets/e2727999-7f81-4fc2-9ff2-08c9cbfee5e8" />
+
+<img width="1467" height="743" alt="Screenshot 2025-08-28 at 1 53 46 AM" src="https://github.com/user-attachments/assets/7f2fe8e8-3ac6-4c1c-8af3-3ef6116fae97" />
 ---
 
 ## Features
@@ -124,3 +127,12 @@ travel_booking/
 ├─ manage.py
 └─ requirements.txt
 ```
+<img width="1467" height="743" alt="Screenshot 2025-08-28 at 1 54 02 AM" src="https://github.com/user-attachments/assets/222ac543-edcd-49da-9c45-1a9a05fe460d" />
+<img width="1467" height="743" alt="Screenshot 2025-08-28 at 1 54 16 AM" src="https://github.com/user-attachments/assets/6151dcf8-d9b8-43d6-9739-d74fe9944032" />
+
+<img width="1467" height="743" alt="Screenshot 2025-08-28 at 1 54 31 AM" src="https://github.com/user-attachments/assets/46f786f3-6909-4ff6-8943-1c96bd3a3e65" />
+
+
+
+
+
