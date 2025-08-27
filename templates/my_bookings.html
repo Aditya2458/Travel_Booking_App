@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold">My Bookings</h1>
+    <a href="{% url 'travel_list' %}" class="btn btn-outline-secondary rounded-pill px-4">
+      ← Back
+    </a>
+  </div>
+
+  {% if bookings %}
+    <div class="table-responsive shadow rounded-3">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-primary text-center">
+          <tr>
+            <th>ID</th>
+            <th>Travel Option</th>
+            <th>Seats</th>
+            <th>Total Price</th>
+            <th>Booking Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for b in bookings %}
+            <tr class="text-center">
+              <td><strong>{{ b.booking_id }}</strong></td>
+              <td>{{ b.travel_option }}</td>
+              <td>{{ b.seats }}</td>
+              <td class="fw-semibold text-success">₹{{ b.total_price }}</td>
+              <td>{{ b.booking_date }}</td>
+              <td>
+                {% if b.status == 'CONFIRMED' %}
+                  <span class="badge bg-success">{{ b.get_status_display }}</span>
+                {% elif b.status == 'CANCELLED' %}
+                  <span class="badge bg-danger">{{ b.get_status_display }}</span>
+                {% else %}
+                  <span class="badge bg-secondary">{{ b.get_status_display }}</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if b.status == 'CONFIRMED' %}
+                  <form method="post" action="{% url 'cancel_booking' b.pk %}">
+                    {% csrf_token %}
+                    <button class="btn btn-sm btn-outline-danger rounded-pill px-3" type="submit">
+                      Cancel
+                    </button>
+                  </form>
+                {% else %}
+                  <span class="text-muted">N/A</span>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-info text-center shadow-sm rounded-3 mt-4">
+      You have no bookings yet. <a href="{% url 'travel_list' %}" class="fw-bold text-primary">Book Now</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-4 text-primary fw-bold">Available Travel Options</h1>
+
+    <!-- Filter Form -->
+    <form method="get" class="row g-3 mb-4 p-3 bg-light rounded shadow-sm">
+        <div class="col-md-2">
+            <select name="type" class="form-select">
+                <option value="">All types</option>
+                <option value="Flight" {% if request.GET.type == 'Flight' %}selected{% endif %}>Flight</option>
+                <option value="Train" {% if request.GET.type == 'Train' %}selected{% endif %}>Train</option>
+                <option value="Bus" {% if request.GET.type == 'Bus' %}selected{% endif %}>Bus</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <input name="source" class="form-control" placeholder="Source" value="{{ request.GET.source }}">
+        </div>
+        <div class="col-md-3">
+            <input name="destination" class="form-control" placeholder="Destination" value="{{ request.GET.destination }}">
+        </div>
+        <div class="col-md-2">
+            <input type="date" name="date" class="form-control" value="{{ request.GET.date }}">
+        </div>
+        <div class="col-md-2 d-grid">
+            <button class="btn btn-primary fw-bold">Filter</button>
+        </div>
+    </form>
+
+    <!-- Travel Cards -->
+    <div class="row g-4">
+        {% for t in travels %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-lg border-0 rounded-4 h-100">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <h5 class="card-title text-primary fw-bold">
+                            {{ t.travel_type }} — {{ t.source }} → {{ t.destination }}
+                        </h5>
+                        <p class="card-text mb-2">
+                            <strong>Date:</strong> {{ t.date_time|date:"d M Y, H:i" }}<br>
+                            <strong>Price:</strong> <span class="text-success">₹{{ t.price }}</span><br>
+                            <strong>Seats:</strong> {{ t.available_seats }}
+                        </p>
+                        <a href="{% url 'travel_detail' t.pk %}" class="btn btn-outline-primary mt-auto fw-bold">
+                            View & Book
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center">
+                <div class="alert alert-warning fw-bold">No travel options found.</div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+            {% endif %}
+            <li class="page-item disabled">
+                <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            </li>
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

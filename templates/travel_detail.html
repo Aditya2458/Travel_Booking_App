@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-lg border-0 rounded-4">
+            <div class="card-body p-5">
+
+                <!-- Back Button -->
+                <div class="mb-4">
+                    <a href="{% url 'travel_list' %}" class="btn btn-outline-secondary rounded-pill px-4">
+                        ← Back
+                    </a>
+                </div>
+
+                <h2 class="text-center mb-4 text-primary fw-bold">{{ travel.travel_type }}</h2>
+                
+                <div class="text-center mb-4">
+                    <h4 class="fw-bold">{{ travel.source }} <span class="text-muted">→</span> {{ travel.destination }}</h4>
+                    <p class="mb-1"><strong>Date & Time:</strong> {{ travel.date_time|date:"D, d M Y H:i" }}</p>
+                    <p class="mb-1"><strong>Price:</strong> <span class="text-success">₹{{ travel.price }}</span></p>
+                    <p><strong>Available Seats:</strong> {{ travel.available_seats }}</p>
+                </div>
+
+                {% if travel.available_seats > 0 %}
+                    {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'create_booking' travel.pk %}" class="needs-validation" novalidate>
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                {{ form.seats.label_tag }}
+                                {{ form.seats|add_class:"form-control text-center" }}
+                                {% for error in form.seats.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <button type="submit" class="btn btn-success w-100 py-2 fw-bold">Book Now</button>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-info text-center">
+                            <a href="{% url 'login' %}" class="fw-bold text-primary text-decoration-none">Log in</a> to book your travel.
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-danger text-center fw-bold">
+                        No seats available for this travel option.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
